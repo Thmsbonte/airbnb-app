@@ -16,25 +16,25 @@ import MapView from "react-native-maps";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 
 const Offer = ({ item }) => {
-  console.log(item.photos);
-  const photos = item.photos;
   return (
     <ScrollView>
       <View style={styles.photoContent}>
         <SwiperFlatList
           showPagination
-          data={photos}
-          renderItem={({ elem }) => (
-            <View>
-              <Image
-                style={styles.photo}
-                source={{
-                  uri: elem.url,
-                }}
-                resizeMode={"cover"}
-              />
-            </View>
-          )}
+          data={item.photos}
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <Image
+                  style={styles.photo}
+                  source={{
+                    uri: item.url,
+                  }}
+                  resizeMode={"cover"}
+                />
+              </View>
+            );
+          }}
         />
 
         <View style={styles.priceContent}>
