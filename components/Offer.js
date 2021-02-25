@@ -5,24 +5,38 @@ import {
   View,
   Image,
   TouchableHighlight,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import colors from "../assets/colors";
 import StarRating from "./StarRating";
 const { mainPink, grey, lightGrey, darkGrey } = colors;
-import { useNavigation } from "@react-navigation/core";
+
+import MapView from "react-native-maps";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 
 const Offer = ({ item }) => {
-  const navigation = useNavigation();
+  console.log(item.photos);
+  const photos = item.photos;
   return (
-    <View>
+    <ScrollView>
       <View style={styles.photoContent}>
-        <Image
-          style={styles.photo}
-          source={{
-            uri: item.photos[0].url,
-          }}
-          resizeMode={"cover"}
+        <SwiperFlatList
+          showPagination
+          data={photos}
+          renderItem={({ elem }) => (
+            <View>
+              <Image
+                style={styles.photo}
+                source={{
+                  uri: elem.url,
+                }}
+                resizeMode={"cover"}
+              />
+            </View>
+          )}
         />
+
         <View style={styles.priceContent}>
           <Text style={styles.price}>{item.price} €</Text>
         </View>
@@ -53,11 +67,28 @@ const Offer = ({ item }) => {
       >
         {item.description}
       </Text>
-    </View>
+      <MapView
+        style={styles.mapView}
+        initialRegion={{
+          latitude: item.location[1],
+          longitude: item.location[0],
+          latitudeDelta: 0.1,
+          longitudeDelta: 0.1,
+        }}
+      >
+        <MapView.Marker
+          coordinate={{
+            latitude: item.location[1],
+            longitude: item.location[0],
+          }}
+        />
+      </MapView>
+    </ScrollView>
   );
 };
 export default Offer;
 
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     marginLeft: 20,
@@ -68,7 +99,7 @@ const styles = StyleSheet.create({
   },
   photo: {
     height: 260,
-    width: "100%",
+    width: width,
   },
   priceContent: {
     position: "absolute",
@@ -101,5 +132,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     marginTop: 5,
+  },
+  mapView: {
+    marginTop: 15,
+    height: 250,
+    width: "100%",
   },
 });

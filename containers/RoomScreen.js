@@ -24,9 +24,8 @@ const RoomScreen = () => {
         const response = await axios.get(
           `https://express-airbnb-api.herokuapp.com/rooms/${route.params.id}`
         );
-        setOfferData([response.data]);
+        setOfferData(response.data);
         setIsLoading(false);
-        console.log("toto", offerData);
       } catch (error) {
         setIsLoading(false);
         console.log(error.response.data.error);
@@ -39,15 +38,9 @@ const RoomScreen = () => {
   return isLoading ? (
     <ActivityIndicator size="small" color={mainPink} />
   ) : (
-    <FlatList
-      data={offerData}
-      keyExtractor={(item) => String(item._id)}
-      renderItem={({ item }) => (
-        <View>
-          <Offer item={item} />
-        </View>
-      )}
-    />
+    <View>
+      <Offer item={offerData} />
+    </View>
   );
 };
 export default RoomScreen;

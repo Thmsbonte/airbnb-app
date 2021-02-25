@@ -12,7 +12,7 @@ import SettingsScreen from "./containers/SettingsScreen";
 import AroundMe from "./containers/AroundMe";
 import colors from "./assets/colors";
 import Logo from "./components/Logo";
-import { View } from "react-native";
+import { View, Button } from "react-native";
 import RoomScreen from "./containers/RoomScreen";
 const { mainPink, grey, lightGrey, darkGrey } = colors;
 
@@ -68,23 +68,10 @@ export default function App() {
         </Stack.Navigator>
       ) : (
         // User is signed in
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "White",
-            },
-          }}
-        >
+        <Stack.Navigator>
           <Stack.Screen
             name="Tab"
-            options={{
-              headerTitle: () => <Logo height={30} width={30} />,
-              headerTitleAlign: "center",
-              headerStyle: {
-                height: 100,
-              },
-              headerTitleStyle: {},
-            }}
+            options={{ headerShown: false, animationEnabled: false }}
           >
             {() => (
               <Tab.Navigator
@@ -103,22 +90,24 @@ export default function App() {
                   }}
                 >
                   {() => (
-                    <Stack.Navigator>
-                      <Stack.Screen
-                        name="Home"
-                        options={{
-                          headerShown: false,
-                        }}
-                      >
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerTitle: () => <Logo height={30} width={30} />,
+                        headerTitleAlign: "center",
+                        headerStyle: {
+                          height: 100,
+                        },
+                        headerBackTitleStyle: {
+                          color: mainPink,
+                        },
+                        headerTintColor: mainPink,
+                      }}
+                    >
+                      <Stack.Screen name="Home">
                         {() => <HomeScreen />}
                       </Stack.Screen>
-                      <Stack.Screen
-                        name="Room"
-                        options={{
-                          headerShown: false,
-                        }}
-                      >
-                        {(props) => <RoomScreen {...props} />}
+                      <Stack.Screen name="Room">
+                        {() => <RoomScreen />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -137,7 +126,19 @@ export default function App() {
                   }}
                 >
                   {() => (
-                    <Stack.Navigator>
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerTitle: () => <Logo height={30} width={30} />,
+                        headerTitleAlign: "center",
+                        headerStyle: {
+                          height: 100,
+                        },
+                        headerBackTitleStyle: {
+                          color: mainPink,
+                        },
+                        headerTintColor: mainPink,
+                      }}
+                    >
                       <Stack.Screen
                         name="AroundMe"
                         options={{
@@ -146,6 +147,9 @@ export default function App() {
                         }}
                       >
                         {() => <AroundMe />}
+                      </Stack.Screen>
+                      <Stack.Screen name="RoomAround">
+                        {() => <RoomScreen />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
